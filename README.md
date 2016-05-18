@@ -15,3 +15,10 @@ cmhost.sec.cloudera.com	| FQDN for Cloudera Manager Server host.
 /opt/cloudera/security/x509	| Location for openssl key/, cert/ and cacerts/ files to be used by the Cloudera Manager Agent and Hue.
 /opt/cloudera/security/jks	| Location for the Java-based keystore/ and truststore/ files for use by Cloudera Manager and Java-based cluster services.
 /opt/cloudera/security/CAcerts	| Location for CA certificates (root and intermediary/subordinate CAs). One PEM file per CA in the chain is required.
+
+```
+keytool -genkeypair -alias cmhostname-replace -keyalg RSA -keystore \
+/opt/cloudera/security/jks/cmhost-keystore.jks -keysize 2048 -dname \
+"CN=cmhostname-replace.sec.cloudera.com,OU=Support,O=Cloudera,L=Denver,ST=Colorado,C=US" \
+-storepass password -keypass password
+```
