@@ -16,12 +16,19 @@ cmhost.sec.cloudera.com	| FQDN for Cloudera Manager Server host.
 /opt/cloudera/security/jks	| Location for the Java-based keystore/ and truststore/ files for use by Cloudera Manager and Java-based cluster services.
 /opt/cloudera/security/CAcerts	| Location for CA certificates (root and intermediary/subordinate CAs). One PEM file per CA in the chain is required.
 
-Create keystore
+Create keystore (you will be prompted for password):
 ```
 keytool -genkeypair -alias cmhostname-replace -keyalg RSA -keystore \
-/opt/cloudera/security/jks/cmhost-keystore.jks -keysize 2048 -dname \
-"CN=cmhostname-replace.sec.cloudera.com,OU=Support,O=Cloudera,L=Denver,ST=Colorado,C=US" \
--storepass password -keypass password
+/opt/cloudera/security/jks/keystore.jks -keysize 2048 -dname \
+"CN=cmhostname-replace.sec.cloudera.com,OU=Support,O=Cloudera,L=Denver,ST=Colorado,C=US"
+```
+
+For self-signed certs, extract the cert from the keystore and add to truststore (use same password):
+```
+keytool -export -keystore jks/keystore.jks -alias cmhostname-replace -file x509/cmhostname-replace.cer
+```
+```
+keytool -import -v -trustcacerts -alias cmhostname-replace -file x509/cmhostname-replace.cer -keystore jks/truststore.jks
 ```
 
 Generate Certificate Signing Request (CSR)
