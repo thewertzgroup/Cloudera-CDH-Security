@@ -41,3 +41,34 @@ keytool -importkeystore -srckeystore keystore.jks -destkeystore keystore.p12
 ```
 openssl pkcs12 -in keystore.p12  -nodes -nocerts -out key.pem
 ```
+Generate a Self-Signed Certificate from an Existing Private Key and CSR:
+https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs
+```
+openssl x509 \
+       -signkey domain.key \
+       -in domain.csr \
+       -req -days 365 -out domain.crt
+```
+
+## View Certificates
+Certificate and CSR files are encoded in PEM format, which is not readily human-readable.
+
+This section covers OpenSSL commands that will output the actual entries of PEM-encoded files.
+
+### View CSR Entries
+This command allows you to view and verify the contents of a CSR (domain.csr) in plain text:
+```
+openssl req -text -noout -verify -in domain.csr
+```
+
+### View Certificate Entries
+This command allows you to view the contents of a certificate (domain.crt) in plain text:
+```
+openssl x509 -text -noout -in domain.crt
+```
+
+### Verify a Certificate was Signed by a CA
+Use this command to verify that a certificate (domain.crt) was signed by a specific CA certificate (ca.crt):
+```
+openssl verify -verbose -CAFile ca.crt domain.crt
+```
