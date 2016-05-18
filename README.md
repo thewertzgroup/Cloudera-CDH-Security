@@ -39,23 +39,7 @@ keytool -certreq -alias cmhost \
 -keypass password
 ```
 
-For self-signed certs:
-Export private key from keystore:
-```
-keytool -importkeystore -srckeystore keystore.jks -destkeystore keystore.p12
--deststoretype PKCS12
-```
-```
-openssl pkcs12 -in keystore.p12  -nodes -nocerts -out key.pem
-```
-Generate a Self-Signed Certificate from an Existing Private Key and CSR:
 https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs
-```
-openssl x509 \
-       -signkey domain.key \
-       -in domain.csr \
-       -req -days 365 -out domain.crt
-```
 
 ## View Certificates
 Certificate and CSR files are encoded in PEM format, which is not readily human-readable.
